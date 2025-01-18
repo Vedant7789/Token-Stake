@@ -1,5 +1,5 @@
 //SPDX-License-Identifier:MIT
-// SPDX-License-Identifier: SEE LICENSE IN LICENSE
+
 pragma solidity ^0.8.28;
 
 import "forge-std/Test.sol";
@@ -15,6 +15,21 @@ contract KirCoinTest is Test{
     function testInitialSupply() public view{
         assert(kirCoin.totalSupply()==0);
     }
+    function testFailMint() public view{
+        vm.startPrank(0x14dC79964da2C08b23698B3D3cc7Ca32193d9955);
+        kirCoin.mint(0x14dC79964da2C08b23698B3D3cc7Ca32193d9955,10);
 
+    }
+    function testMint() public{
+        kirCoin.mint(0x14dC79964da2C08b23698B3D3cc7Ca32193d9955,10);
+        assert(kirCoin.balanceOf(0x14dC79964da2C08b23698B3D3cc7Ca32193d9955)==10);
+    }
+    function testChangeStakingContract()public{
+        kirCoin.updateStakingContract(0x14dC79964da2C08b23698B3D3cc7Ca32193d9955);
+        vm.startPrank(0x14dC79964da2C08b23698B3D3cc7Ca32193d9955);
+        kirCoin.mint(0x14dC79964da2C08b23698B3D3cc7Ca32193d9955,10);
+        assert(kirCoin.balanceOf(0x14dC79964da2C08b23698B3D3cc7Ca32193d9955)==10);
+
+    }
 
 }
